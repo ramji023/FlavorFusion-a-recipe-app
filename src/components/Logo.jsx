@@ -1,6 +1,6 @@
 // Logo.jsx
 import React from "react";
-import "animate.css";
+
 
 const Logo = () => {
     return (

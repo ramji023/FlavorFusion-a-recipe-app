@@ -1,121 +1,115 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faBookmark, faUser, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+
 
 const Home = () => {
-  const scrollRef = useRef(null);
-
-  const scrollDown = () => {
-    // Scroll to the next section smoothly
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="relative bg-gradient-to-r from-purple-500 to-pink-500 min-h-screen overflow-hidden">
-      {/* Hero Section with 3D effect */}
-      <div className="flex items-center justify-center text-center h-screen px-4 py-20 md:px-8">
-        <div className="relative z-10 text-white">
-          <h1 className="text-6xl md:text-7xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-            Welcome to <span className="text-pink-500">FlavorFusion</span>
+    <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
+      {/* Hero Section */}
+      <section className="relative w-full h-[600px] bg-cover bg-center" style={{ backgroundImage: "url('your-image-url.jpg')" }}>
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <h1 className="text-4xl font-bold text-white text-center px-4">
+            Discover Your Favorite Recipes with <span className="text-pink-500">FlavorFusion</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-            Discover exciting new recipes and flavors. Get inspired and start
-            cooking today!
-          </p>
-
-          <button
-            onClick={scrollDown}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-full shadow-lg transition-transform transform hover:scale-110"
-          >
-            Explore Recipes
-          </button>
         </div>
-        {/* 3D Background Image */}
-        <div className="absolute inset-0 z-0 bg-cover bg-center opacity-40" style={{ backgroundImage: "url('https://source.unsplash.com/1600x900/?food')" }} />
-      </div>
+      </section>
 
-      {/* Section 2 with Recipe Cards */}
-      <div
-        ref={scrollRef}
-        className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-20 space-y-8"
-      >
-        <h2 className="text-4xl font-bold text-pink-500 mb-6">Explore Our Recipes</h2>
-        <p className="text-lg mb-4 text-center max-w-xl mx-auto">
-          Delicious recipes curated just for you. Try new dishes and share them
-          with your loved ones.
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-8">
-          {/* Recipe Card 1 */}
-          <div className="max-w-xs rounded-lg shadow-lg overflow-hidden bg-white transform transition-all hover:scale-105 hover:shadow-2xl">
-            <img
-              src="https://source.unsplash.com/300x300/?recipe"
-              alt="Recipe 1"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Delicious Pasta</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                A savory and creamy pasta dish that will leave you craving more.
-              </p>
-              <Link
-                to="/recipes"
-                className="inline-block mt-4 bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full hover:bg-gradient-to-l hover:scale-105 transition-all"
-              >
-                See Recipe
-              </Link>
+      {/* Recipe Categories Section */}
+      <section className="py-12 bg-gray-50">
+        <h2 className="text-3xl font-bold text-center mb-8">Recipe Categories</h2>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Category Cards */}
+          {["Category 1", "Category 2", "Category 3", "Category 4"].map((category, index) => (
+            <div key={index} className="relative group">
+              <img
+                src="category-image-url.jpg"
+                alt={category}
+                className="w-full h-[200px] object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-all duration-300"></div>
+              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">
+                {category}
+              </div>
             </div>
-          </div>
-
-          {/* Recipe Card 2 */}
-          <div className="max-w-xs rounded-lg shadow-lg overflow-hidden bg-white transform transition-all hover:scale-105 hover:shadow-2xl">
-            <img
-              src="https://source.unsplash.com/300x300/?dessert"
-              alt="Recipe 2"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Chocolate Cake</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                A rich, moist chocolate cake perfect for any occasion.
-              </p>
-              <Link
-                to="/recipes"
-                className="inline-block mt-4 bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full hover:bg-gradient-to-l hover:scale-105 transition-all"
-              >
-                See Recipe
-              </Link>
-            </div>
-          </div>
-
-          {/* Recipe Card 3 */}
-          <div className="max-w-xs rounded-lg shadow-lg overflow-hidden bg-white transform transition-all hover:scale-105 hover:shadow-2xl">
-            <img
-              src="https://source.unsplash.com/300x300/?salad"
-              alt="Recipe 3"
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Healthy Salad</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                A fresh, vibrant salad loaded with nutrients and flavor.
-              </p>
-              <Link
-                to="/recipes"
-                className="inline-block mt-4 bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full hover:bg-gradient-to-l hover:scale-105 transition-all"
-              >
-                See Recipe
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-6">
-        <p>&copy; 2024 FlavorFusion. All rights reserved.</p>
-      </footer>
+      {/* Discover Communities Section */}
+      <section className="py-12 bg-white">
+        <h2 className="text-3xl font-bold text-center mb-8">Discover Communities</h2>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Community Cards */}
+          {["Community 1", "Community 2", "Community 3", "Community 4"].map((community, index) => (
+            <div key={index} className="relative group">
+              <img
+                src="community-image-url.jpg"
+                alt={community}
+                className="w-full h-[200px] object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-all duration-300"></div>
+              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl">
+                {community}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Popular Creators Section */}
+      <section className="py-12 bg-gray-50">
+        <h2 className="text-3xl font-bold text-center mb-8">Popular Creators</h2>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Creator Cards */}
+          {["Creator 1", "Creator 2", "Creator 3", "Creator 4"].map((creator, index) => (
+            <div key={index} className="text-center bg-white p-4 rounded-lg shadow-lg">
+              <div className="w-20 h-20 mx-auto rounded-full overflow-hidden mb-4">
+                <img src="creator-profile-image-url.jpg" alt={creator} className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-semibold text-lg">{creator}</h3>
+              <button className="mt-4 px-6 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-full">
+                Follow
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Discover Recipes Section */}
+      <section className="py-12 bg-white">
+        <h2 className="text-3xl font-bold text-center mb-8">Discover Recipes</h2>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Recipe Cards */}
+          {["Recipe 1", "Recipe 2", "Recipe 3", "Recipe 4"].map((recipe, index) => (
+            <div key={index} className="relative group bg-white shadow-lg rounded-lg">
+              <img
+                src="recipe-image-url.jpg"
+                alt={recipe}
+                className="w-full h-[250px] object-cover rounded-t-lg"
+              />
+              <div className="absolute top-2 right-2 text-white text-lg flex space-x-2">
+                <button className="bg-black p-1 rounded-full">
+                  <FontAwesomeIcon icon={faHeart} /> {/* Like Icon */}
+                </button>
+                <button className="bg-black p-1 rounded-full">
+                  <FontAwesomeIcon icon={faBookmark} /> {/* Save Icon */}
+                </button>
+                <button className="bg-black p-1 rounded-full">
+                  <FontAwesomeIcon icon={faUser} /> {/* Creator Icon */}
+                </button>
+                <button className="bg-black p-1 rounded-full">
+                  <FontAwesomeIcon icon={faEllipsisV} /> {/* More Icon */}
+                </button>
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold text-xl">{recipe}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
