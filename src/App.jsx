@@ -6,6 +6,7 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
+import Card from "./components/Card";
 const App = () => {
   return (
     <>
@@ -14,7 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="profile" element={<Profile />} />
-
+          <Route path="/card" element={<Card />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
         </Routes>
