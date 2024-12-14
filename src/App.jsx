@@ -5,14 +5,16 @@ import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Footer from "./layouts/Footer";
+import Profile from "./pages/Profile";
 const App = () => {
   return (
     <>
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />}>
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
         </Routes>

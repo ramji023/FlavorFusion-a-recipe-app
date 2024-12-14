@@ -2,11 +2,10 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faBookmark, faUser, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import video from "../assets/title_video.mp4"
-import Logo from "../components/Logo"
 const Home = () => {
   return (
     <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
-      {/* Hero Section */}
+      {/* first Section */}
       <section className="relative w-full h-[600px]">
         {/* Video Background */}
         <video
