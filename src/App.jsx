@@ -4,6 +4,7 @@ import Navbar from "./layouts/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
+import Footer from "./layouts/Footer";
 const App = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
         </Routes>
+        <Footer />
       </Router>
     </>
   )
