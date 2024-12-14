@@ -1,20 +1,36 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faBookmark, faUser, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-
-
+import video from "../assets/title_video.mp4"
+import Logo from "../components/Logo"
 const Home = () => {
   return (
     <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
       {/* Hero Section */}
-      <section className="relative w-full h-[600px] bg-cover bg-center" style={{ backgroundImage: "url('your-image-url.jpg')" }}>
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+      <section className="relative w-full h-[600px]">
+        {/* Video Background */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src={video}
+          autoPlay
+          loop
+          muted
+          playsInline
+        ></video>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        {/* content */}
         <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-4xl font-bold text-white text-center px-4">
-            Discover Your Favorite Recipes with <span className="text-pink-500">FlavorFusion</span>
-          </h1>
+          <h2 className="text-6xl font-bold text-white text-center mb-6 font-[Poppins]">
+            Discover Your Favorite Recipes with
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+              FlavorFusion
+            </span>
+          </h2>
         </div>
       </section>
+
 
       {/* Recipe Categories Section */}
       <section className="py-12 bg-gray-50">
