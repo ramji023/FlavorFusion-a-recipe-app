@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import emailValidation from "../../utils/emailValidation";
+import passwordChecker from "../../utils/passwordChecker";
+import { isValidUsername } from "../../utils/validateUsername";
+import usePostData from "../../customHooks/usePostData";
+
 
 const Signup = () => {
+    const { data, error, loading, postData } = usePostData("/api/users")
+    const [registerformData, setRegisterFormData] = useState({
+        username: "",
+        email: "",
+        password: "",
+    })
+
+    function handleInputChange(e) {
+        const { name, value } = e.target
+        setRegisterFormData((currFormData) => ({ ...currFormData, [name]: value }))
+    }
+    function handleSubmitForm(e) {
+        e.preventDefault()
+        console.log(registerformData);
+        const { username, email, password } = registerformData
+        if (emailValidation(email) && passwordChecker(password) && isValidUsername(username)) {
+            postData({ username, email, password })
+        }
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
             {/* Sign Up Form */}
@@ -11,7 +36,9 @@ const Signup = () => {
                         FlavorFusion
                     </span>
                 </h2>
-                <form>
+                {loading && <p className="text-yellow-500 text-center">Submitting your details...</p>}
+                {error && <p className="text-red-500 text-center"> {error.message || "Something went wrong!"}</p>}
+                <form onSubmit={handleSubmitForm}>
                     {/* Username Field */}
                     <div className="mb-4">
                         <label
@@ -23,9 +50,17 @@ const Signup = () => {
                         <input
                             type="text"
                             id="username"
+                            name="username"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                             placeholder="Enter your username"
+                            value={registerformData.username}
+                            onChange={handleInputChange}
                         />
+                        {
+                            !isValidUsername(registerformData.username) && (
+                                <p className="text-red-500 mt-1">username contain only alphabets</p>
+                            )
+                        }
                     </div>
                     {/* Email Field */}
                     <div className="mb-4">
@@ -38,9 +73,18 @@ const Signup = () => {
                         <input
                             type="email"
                             id="email"
+                            name="email"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                             placeholder="Enter your email"
+                            value={registerformData.email}
+                            onChange={handleInputChange}
                         />
+                        {
+                            !emailValidation(registerformData.email) && (
+                                <p className="text-red-500 mt-1">Please enter valid email</p>
+                            )
+                        }
+
                     </div>
                     {/* Password Field */}
                     <div className="mb-6">
@@ -53,9 +97,17 @@ const Signup = () => {
                         <input
                             type="password"
                             id="password"
+                            name="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="Enter your password"
+                            value={registerformData.password}
+                            onChange={handleInputChange}
                         />
+                        {
+                            !passwordChecker(registerformData.password) && (
+                                <p className="text-red-500 mt-1">password must contain Minimum 8 characters, at least one uppercase, one lowercase, one number, and one special character</p>
+                            )
+                        }
                     </div>
                     {/* Submit Button */}
                     <div className="text-center">
