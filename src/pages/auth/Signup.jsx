@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import emailValidation from "../../utils/emailValidation";
 import passwordChecker from "../../utils/passwordChecker";
 import { isValidUsername } from "../../utils/validateUsername";
 import usePostData from "../../customHooks/usePostData";
-
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    const { data, error, loading, postData } = usePostData("/api/users/register")
+    const navigate = useNavigate(); // initialize useNavigate
+    const { data, error, loading, success, postData } = usePostData("/api/v1/users/register")
     const [registerformData, setRegisterFormData] = useState({
         username: "",
         email: "",
@@ -19,12 +20,21 @@ const Signup = () => {
     }
     function handleSubmitForm(e) {
         e.preventDefault()
-        console.log(registerformData);
+        // console.log(registerformData);
         const { username, email, password } = registerformData
         if (emailValidation(email) && passwordChecker(password) && isValidUsername(username)) {
-            postData({ username, email, password })
+            postData({ username, email, password });
         }
     }
+
+    // if data fetch successfully then navigate to the home page
+    useEffect(() => {
+        if (success) {
+            console.log("response data : ", data)
+            navigate("/")
+        }
+    }, [success, navigate])
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
@@ -37,7 +47,7 @@ const Signup = () => {
                     </span>
                 </h2>
                 {loading && <p className="text-yellow-500 text-center text-xs">Submitting your details...</p>}
-                {error && <p className="text-red-500 text-center text-xs"> {error.message || "Something went wrong!"}</p>}
+                {error && <p className="text-red-500 text-center text-xs"> {error || "Something went wrong!"}</p>}
                 <form onSubmit={handleSubmitForm}>
                     {/* Username Field */}
                     <div className="mb-4">
