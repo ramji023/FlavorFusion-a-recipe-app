@@ -6,7 +6,7 @@ import usePostData from "../../customHooks/usePostData";
 
 
 const Signup = () => {
-    const { data, error, loading, postData } = usePostData("/api/users")
+    const { data, error, loading, postData } = usePostData("/api/users/register")
     const [registerformData, setRegisterFormData] = useState({
         username: "",
         email: "",
@@ -36,8 +36,8 @@ const Signup = () => {
                         FlavorFusion
                     </span>
                 </h2>
-                {loading && <p className="text-yellow-500 text-center">Submitting your details...</p>}
-                {error && <p className="text-red-500 text-center"> {error.message || "Something went wrong!"}</p>}
+                {loading && <p className="text-yellow-500 text-center text-xs">Submitting your details...</p>}
+                {error && <p className="text-red-500 text-center text-xs"> {error.message || "Something went wrong!"}</p>}
                 <form onSubmit={handleSubmitForm}>
                     {/* Username Field */}
                     <div className="mb-4">
@@ -58,7 +58,7 @@ const Signup = () => {
                         />
                         {
                             !isValidUsername(registerformData.username) && (
-                                <p className="text-red-500 mt-1">username contain only alphabets</p>
+                                <p className="text-red-500 mt-1 text-xs">**username contain only alphabets</p>
                             )
                         }
                     </div>
@@ -81,7 +81,7 @@ const Signup = () => {
                         />
                         {
                             !emailValidation(registerformData.email) && (
-                                <p className="text-red-500 mt-1">Please enter valid email</p>
+                                <p className="text-red-500 mt-1 text-xs">**Please enter valid email</p>
                             )
                         }
 
@@ -105,7 +105,7 @@ const Signup = () => {
                         />
                         {
                             !passwordChecker(registerformData.password) && (
-                                <p className="text-red-500 mt-1">password must contain Minimum 8 characters, at least one uppercase, one lowercase, one number, and one special character</p>
+                                <p className="text-red-500 mt-1 text-xs">**password must contain Minimum 8 characters, at least one uppercase, one lowercase, one number, and one special character</p>
                             )
                         }
                     </div>

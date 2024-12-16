@@ -1,7 +1,24 @@
-// Login.jsx
-import React from "react";
+import React, { useState } from "react";
+import usePostData from "../../customHooks/usePostData";
 
 const Login = () => {
+    const { data, error, loading, postData } = usePostData("/api/users/login")
+    const [loggingUserData, setLoggingUserData] = useState({
+        email: "",
+        password: "",
+    })
+
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+        setLoggingUserData((currUserData) => ({ ...currUserData, [name]: value }))
+    }
+
+    function handleSubmitForm(e) {
+        e.preventDefault();
+        const { email, password } = loggingUserData
+        console.log(loggingUserData)
+        postData({ email, password })
+    }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
             {/* Login Form */}
@@ -12,7 +29,9 @@ const Login = () => {
                         FlavorFusion
                     </span>
                 </h2>
-                <form>
+                {loading && <p className="text-yellow-500 text-center text-xs">Submitting your details...</p>}
+                {error && <p className="text-red-500 text-center text-xs"> {error.message || "Something went wrong!"}</p>}
+                <form onSubmit={handleSubmitForm}>
                     {/* Email Field */}
                     <div className="mb-4">
                         <label
@@ -24,8 +43,11 @@ const Login = () => {
                         <input
                             type="email"
                             id="email"
+                            name="email"
+                            value={loggingUserData.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                             placeholder="Enter your email"
+                            onChange={handleInputChange}
                         />
                     </div>
                     {/* Password Field */}
@@ -39,8 +61,11 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
+                            name="password"
+                            value={loggingUserData.password}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="Enter your password"
+                            onChange={handleInputChange}
                         />
                     </div>
                     {/* Submit Button */}
