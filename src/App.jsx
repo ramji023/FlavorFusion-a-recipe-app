@@ -7,6 +7,7 @@ import Signup from "./pages/auth/Signup";
 import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
 import Card from "./components/Card";
+import AddRecipe from "./pages/AddRecipe";
 import { AuthProvider } from "./hooks/authContext";
 import ProtectedPages from "./ProtectedPages";
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/add-recipe" element={<AddRecipe />} />
 
             {/* wrap profile component in ProtectedPages  */}
             <Route path="/profile" element={
@@ -24,7 +26,6 @@ const App = () => {
                 <Profile />
               </ProtectedPages>
             } />
-
 
             <Route path="/card" element={<Card />} />
             <Route path="/login" element={<Login />} />

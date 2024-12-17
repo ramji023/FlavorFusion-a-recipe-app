@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Profile = () => {
     return (
         <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 min-h-screen p-8">
@@ -54,12 +54,12 @@ const Profile = () => {
 
                 {/* Navigation Tabs */}
                 <div className="flex space-x-8 text-gray-700 font-medium text-lg mb-8">
-                    <button className="hover:text-orange-600 border-b-2 border-transparent hover:border-orange-600">
+                    <Link to="/add-recipe" className="hover:text-orange-600 border-b-2 border-transparent hover:border-orange-600">
                         Created Recipes
-                    </button>
-                    <button className="hover:text-orange-600 border-b-2 border-transparent hover:border-orange-600">
+                    </Link>
+                    <Link to="#" className="hover:text-orange-600 border-b-2 border-transparent hover:border-orange-600">
                         Saved Recipes
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Divider */}
@@ -78,7 +78,7 @@ const Profile = () => {
                             <p className="text-gray-600 mt-2">Short recipe description...</p>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
