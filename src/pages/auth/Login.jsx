@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import usePostData from "../../customHooks/usePostData";
-
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Login = () => {
-    const { data, error, loading, postData } = usePostData("/api/users/login")
+    const navigate = useNavigate();
+    const { data, error, loading, success, postData } = usePostData("/api/users/login")
     const [loggingUserData, setLoggingUserData] = useState({
         email: "",
         password: "",
@@ -19,6 +21,12 @@ const Login = () => {
         console.log(loggingUserData)
         postData({ email, password })
     }
+
+    useEffect(() => {
+        if (success) {
+            navigate('/')
+        }
+    }, [success, navigate])
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
             {/* Login Form */}
@@ -30,7 +38,7 @@ const Login = () => {
                     </span>
                 </h2>
                 {loading && <p className="text-yellow-500 text-center text-xs">Submitting your details...</p>}
-                {error && <p className="text-red-500 text-center text-xs"> {error.message || "Something went wrong!"}</p>}
+                {error && <p className="text-red-500 text-center text-xs"> {error || "Something went wrong!"}</p>}
                 <form onSubmit={handleSubmitForm}>
                     {/* Email Field */}
                     <div className="mb-4">
@@ -80,12 +88,12 @@ const Login = () => {
                 </form>
                 <p className="text-center text-gray-600 text-sm mt-4">
                     Don't have an account?{" "}
-                    <a
-                        href="/signup"
+                    <Link
+                        to="/register"
                         className="text-pink-500 font-semibold hover:underline"
                     >
                         Sign Up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

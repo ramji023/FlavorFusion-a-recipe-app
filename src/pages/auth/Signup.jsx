@@ -4,6 +4,7 @@ import passwordChecker from "../../utils/passwordChecker";
 import { isValidUsername } from "../../utils/validateUsername";
 import usePostData from "../../customHooks/usePostData";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
     const navigate = useNavigate(); // initialize useNavigate
@@ -133,12 +134,12 @@ const Signup = () => {
                 </form>
                 <p className="text-center text-gray-600 text-sm mt-4">
                     Already have an account?{" "}
-                    <a
-                        href="/login"
+                    <Link
+                        to="/login"
                         className="text-pink-500 font-semibold hover:underline"
                     >
                         Log In
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
