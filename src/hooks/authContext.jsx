@@ -11,13 +11,15 @@ export const AuthProvider = ({ children }) => {
         }
     });
 
-
     //when user successfully logged in or first time register
     function register(newUserData) {
+        // console.log("new user data : ", newUserData);
         setuserData({
             isAuthenticate: true,
             user: newUserData,
         })
+
+        console.log("user logged in successfully", userData);
     }
 
     //when user successfully logout

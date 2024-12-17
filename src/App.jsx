@@ -17,13 +17,15 @@ const App = () => {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* wrap profile component in ProtectedPages  */}
             <Route path="/profile" element={
               <ProtectedPages>
                 <Profile />
               </ProtectedPages>
             } />
 
-            {/* <Route path="/profile" element={<Profile />} /> */}
+
             <Route path="/card" element={<Card />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Signup />} />

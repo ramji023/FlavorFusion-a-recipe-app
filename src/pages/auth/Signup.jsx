@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import emailValidation from "../../utils/emailValidation";
 import passwordChecker from "../../utils/passwordChecker";
 import { isValidUsername } from "../../utils/validateUsername";
 import usePostData from "../../customHooks/usePostData";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../hooks/authContext";
+
 
 const Signup = () => {
     const navigate = useNavigate(); // initialize useNavigate
@@ -14,7 +16,7 @@ const Signup = () => {
         email: "",
         password: "",
     })
-
+    const { register } = useContext(AuthContext);
     function handleInputChange(e) {
         const { name, value } = e.target
         setRegisterFormData((currFormData) => ({ ...currFormData, [name]: value }))
@@ -31,7 +33,15 @@ const Signup = () => {
     // if data fetch successfully then navigate to the home page
     useEffect(() => {
         if (success) {
-            console.log("response data : ", data)
+            //  console.log("response data : ", data.data.data)
+            // Correctly structure the result object
+            const result = {
+                username: data.data.data.username,
+                email: data.data.data.email,
+            };
+            // console.log("data sent to auth context : ", result);
+            // Update AuthContext with the result
+            register(result);
             navigate("/")
         }
     }, [success, navigate])
