@@ -1,11 +1,19 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import usePostData from "../customHooks/usePostData"
 const AddRecipe = () => {
+    const { data, error, loading, success, postData } = usePostData("/api/data");
 
     //define state for managing whole recipe data 
-    const [recipeData,setRecipeData] = useState(
+    const [recipeData, setRecipeData] = useState(
         {
-            
+            recipeTitle: "",
+            description: "",
+            ingredients: [""],
+            instructions: [{ stepNumber: 1, text: "" }],
+            prepTime: "",
+            cookTime: "",
+            images: [],
+            recipeVideo: "",
         }
     )
 
@@ -21,7 +29,7 @@ const AddRecipe = () => {
         setIngredientField((currInputField) => ([...currInputField, { id: Date.now(), value: "" }]))
     }
 
-    function handleInputChange(id, newValue) {
+    function handleIngredientsInputChange(id, newValue) {
         // console.log("value changed")
         const updateIngredientInputField = ingredientField.map((inputs) => (
             inputs.id === id ? { ...inputs, value: newValue } : inputs
@@ -47,14 +55,53 @@ const AddRecipe = () => {
         // console.log("instruction created !!!");
     }
 
+    function handleInputChange(e) {
+        // console.log(typeof(e.target.files[0].name));
+        // console.log(e.target.files[0].name)
+        const { type, name, value, files } = e.target;
+        // console.log({ type, name, value, file })
+        if (type === "text" || type === "textarea") {
+            setRecipeData((currRecipeData) => ({ ...currRecipeData, [name]: value }));
+        }
+
+        if (type === "file") {
+            //if user send videos
+            if (name === "recipeVideo") {
+                const videofile = files[0]
+                // console.log("video file name ", videofile)
+                setRecipeData((currRecipeVideoData) => ({ ...currRecipeVideoData, recipeVideo: videofile }))
+            }
+            //if user send multiple images
+            if (name === "images") {
+                const newImagefile = files[0]
+                // console.log("new images data : ", newImagefile)
+                setRecipeData((currRecipeImageData) => ({ ...currRecipeImageData, images: [...currRecipeImageData.images, newImagefile] }))
+            }
+        }
+    }
 
 
-
+    // console.log("recipe data : ", recipeData);
+    useEffect(() => {
+        const ingredients = ingredientField.filter((ingredient) => ingredient.value.trim() !== "")
+            .map((ingredient) => ingredient.value)
+        const instructions = instructionField.filter((instruction) => instruction.value.trim() !== "")
+            .map((instruction, index) => ({ stepNumber: index + 1, text: instruction.value }))
+        // console.log(ingredients);
+        // console.log(instructions)
+        setRecipeData((currRecipeData) => ({
+            ...currRecipeData,
+            ingredients: ingredients,
+            instructions: instructions,
+        }));
+    }, [ingredientField, instructionField])
 
     function handleSubmitRecipe() {
-        console.log("all ingredients data  : ", ingredientField);
-        console.log("all instructions are : ", instructionField);
+        console.log("Recipe data : ", recipeData);
+
     }
+
+    // console.log(recipeData);
     return (
         <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 min-h-screen p-8">
             <div className="container mx-auto max-w-3xl">
@@ -65,8 +112,11 @@ const AddRecipe = () => {
                     <label className="block text-gray-700 font-semibold mb-2">Recipe Title</label>
                     <input
                         type="text"
+                        name="recipeTitle"
+                        value={recipeData.recipeTitle}
                         className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                         placeholder="Enter recipe title"
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -74,9 +124,12 @@ const AddRecipe = () => {
                 <div className="mb-6">
                     <label className="block text-gray-700 font-semibold mb-2">Description</label>
                     <textarea
+                        name="description"
                         rows="4"
                         className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                         placeholder="Introduce your recipe, add notes, cooking tips, serving suggestions, etc..."
+                        value={recipeData.description}
+                        onChange={handleInputChange}
                     ></textarea>
                 </div>
 
@@ -90,7 +143,7 @@ const AddRecipe = () => {
                                 key={inputs.id}
                                 type="text"
                                 value={inputs.value}
-                                onChange={(e) => { handleInputChange(inputs.id, e.target.value) }}
+                                onChange={(e) => { handleIngredientsInputChange(inputs.id, e.target.value) }}
                                 className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 mb-2"
                                 placeholder="e.g., 2 Tbsp olive oil"
                             />
@@ -121,13 +174,6 @@ const AddRecipe = () => {
                         ))
                     }
 
-
-
-                    {/* <input
-                        type="text"
-                        className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 mb-2"
-                        placeholder="Paste one or multiple steps (e.g. Finely chop the garlic)"
-                    /> */}
                     <button
                         type="button"
                         className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md"
@@ -143,16 +189,22 @@ const AddRecipe = () => {
                         <label className="block text-gray-700 font-semibold mb-2">Prep Time</label>
                         <input
                             type="text"
+                            name="prepTime"
+                            value={recipeData.prepTime}
                             className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                             placeholder="e.g., 15 mins"
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className="w-1/2">
                         <label className="block text-gray-700 font-semibold mb-2">Cook Time</label>
                         <input
                             type="text"
+                            name="cookTime"
+                            value={recipeData.cookTime}
                             className="w-full p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                             placeholder="e.g., 30 mins"
+                            onChange={handleInputChange}
                         />
                     </div>
                 </div>
@@ -162,8 +214,10 @@ const AddRecipe = () => {
                     <label className="block text-gray-700 font-semibold mb-2">Upload Recipe Video (Optional)</label>
                     <input
                         type="file"
+                        name="recipeVideo"
                         accept="video/*"
                         className="w-full p-2 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -172,9 +226,11 @@ const AddRecipe = () => {
                     <label className="block text-gray-700 font-semibold mb-2">Upload Recipe Images (Optional)</label>
                     <input
                         type="file"
+                        name="images"
                         accept="image/*"
                         multiple
                         className="w-full p-2 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        onChange={handleInputChange}
                     />
                 </div>
 

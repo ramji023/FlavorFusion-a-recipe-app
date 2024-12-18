@@ -9,6 +9,7 @@ const usePostData = (url) => {
         try {
             setError("");
             isLoading(true);
+            console.log("data fetch from client side : ",data);
             const response = await axios.post(url, data);
             // console.log(response);
             setData(response.data);
