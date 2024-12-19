@@ -8,6 +8,7 @@ import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
 import Card from "./components/Card";
 import AddRecipe from "./pages/AddRecipe";
+import Recipes from "./pages/Recipes";
 import { AuthProvider } from "./hooks/authContext";
 import ProtectedPages from "./ProtectedPages";
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
-
+            <Route path="/recipes" element={<Recipes />} />
             {/* wrap profile component in ProtectedPages  */}
             <Route path="/profile" element={
               <ProtectedPages>
