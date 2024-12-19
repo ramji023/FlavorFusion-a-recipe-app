@@ -7,15 +7,17 @@ const usePostData = (url) => {
     const [success, setSuccess] = useState(false);
     const postData = useCallback(async (data) => {
         try {
+            console.log("custom hook called")
+            // Check if FormData is received correctly
             setError("");
             isLoading(true);
-            console.log("data fetch from client side : ",data);
             const response = await axios.post(url, data);
-            // console.log(response);
+            console.log("response we got from server : ", response.data);
             setData(response.data);
             setSuccess(true);
         } catch (error) {
             setSuccess(false);
+            console.log(error)
             if (error.response) {
                 console.log(error.response.data.message);
                 setError(error.response.data.message || "Server error occurred.")

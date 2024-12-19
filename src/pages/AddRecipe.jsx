@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import usePostData from "../customHooks/usePostData"
+import { useNavigate } from "react-router-dom";
 const AddRecipe = () => {
-    const { data, error, loading, success, postData } = usePostData("/api/data");
-
+    const navigate = useNavigate();
+    const { data, error, loading, success, postData } = usePostData("/api/v1/recipes/add-recipe");
     //define state for managing whole recipe data 
     const [recipeData, setRecipeData] = useState(
         {
@@ -96,10 +97,46 @@ const AddRecipe = () => {
         }));
     }, [ingredientField, instructionField])
 
-    function handleSubmitRecipe() {
-        console.log("Recipe data : ", recipeData);
 
+
+    function handleSubmitRecipe(e) {
+        e.preventDefault();
+        const formData = new FormData()   // create an instance of FormData object
+        // Append text fields to FormData
+        Object.keys(recipeData).forEach((key) => {
+            if (key !== "images" && key !== "recipeVideo" && key !== "instructions" && key !== "ingredients") {
+                formData.append(key, recipeData[key]);
+            }
+        });
+
+
+        formData.append("ingredients", JSON.stringify(recipeData.ingredients));
+        // Append instructions as JSON string
+        formData.append("instructions", JSON.stringify(recipeData.instructions));
+
+        // now append images
+        recipeData.images.forEach((image) => {
+            formData.append("images", image)
+        })
+
+        //append video
+        if (recipeData.recipeVideo) {
+            formData.append("recipeVideo", recipeData.recipeVideo);
+        }
+
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+        postData(formData);
     }
+
+    useEffect(() => {
+        if (success) {
+            navigate("/");
+            // console.log("response we got", data.data.data);
+        }
+    }, [success, navigate])
 
     // console.log(recipeData);
     return (
@@ -234,6 +271,9 @@ const AddRecipe = () => {
                     />
                 </div>
 
+                {loading && <p className="text-yellow-500 text-center text-xs">Adding you recipe...</p>}
+                {error && <p className="text-red-500 text-center text-xs"> {error || "Something went wrong!"}</p>}
+                {/* {checkvalidation && <p className="text-red-500 text-center text-ts">{checkvalidation}</p>} */}
                 {/* Submit Button */}
                 <div className="text-center">
                     <button

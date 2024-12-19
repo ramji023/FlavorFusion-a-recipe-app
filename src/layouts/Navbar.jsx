@@ -23,7 +23,7 @@ const Navbar = () => {
                         Home
                     </Link>
                     <Link
-                        to="/recipes"
+                        to="/add-recipe"
                         className="text-white text-lg font-semibold font-[Poppins] hover:text-yellow-300 hover:scale-105 transition-transform duration-300"
                     >
                         Recipes
