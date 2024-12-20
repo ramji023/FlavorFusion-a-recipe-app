@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
             user: newUserData,
         })
 
-        console.log("user logged in successfully", userData);
+        console.log("user logged in successfully");
     }
 
     //when user successfully logout

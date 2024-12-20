@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "../axios.interceptor";
 const useFetchData = (url) => {
     const [error, setError] = useState("");
     const [loading, isLoading] = useState(false);
@@ -9,7 +10,7 @@ const useFetchData = (url) => {
             try {
                 setError("")
                 isLoading(true)
-                const response = await axios.get(url)
+                const response = await axiosInstance.get(url)
                 if (response && response.data) {
                     setData(response.data);
                     console.log(response.data);

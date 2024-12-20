@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react"
 import axios from "axios";
+import axiosInstance from "../axios.interceptor";
 const usePostData = (url) => {
     const [data, setData] = useState({});
     const [error, setError] = useState("")
@@ -11,7 +12,7 @@ const usePostData = (url) => {
             // Check if FormData is received correctly
             setError("");
             isLoading(true);
-            const response = await axios.post(url, data);
+            const response = await axiosInstance.post(url, data);
             console.log("response we got from server : ", response.data);
             setData(response.data);
             setSuccess(true);

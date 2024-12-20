@@ -5,10 +5,6 @@ const Recipes = () => {
     const naviagate = useNavigate()
     const { data, error, loading } = useFetchData("/api/v1/recipes/get-recipe");
 
-    if (error === "Token is expired or already used") {
-        naviagate("/signup");
-    }
-
     // Return if loading
     if (loading) {
         return (
@@ -25,14 +21,14 @@ const Recipes = () => {
         return (
             <div className="flex flex-col justify-center items-center mt-8">
                 <p className="text-lg font-semibold text-red-700 bg-red-100 px-4 py-2 rounded-full shadow-md">
-                    Oops! Something went wrong.
+                    {error}
                 </p>
-                <button
+                {/* <button
                     onClick={retryFetch}
                     className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full shadow-md transition duration-300"
                 >
                     Try Again
-                </button>
+                </button> */}
             </div>
         );
     }
@@ -51,7 +47,7 @@ const Recipes = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {data.data.map((recipe) => (
                             <div
-                                key={recipe.id}
+                                key={recipe._id}
                                 className="relative bg-white rounded-2xl shadow-2xl overflow-hidden hover:shadow-3xl transform hover:scale-105 transition duration-300"
                             >
                                 {/* Recipe Image */}
