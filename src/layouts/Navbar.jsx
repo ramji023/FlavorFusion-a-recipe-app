@@ -7,7 +7,7 @@ import { AuthContext } from "../hooks/authContext.jsx";
 const Navbar = () => {
 
     const { userData, logout } = useContext(AuthContext);
-    // console.log(userData);
+    console.log(userData);
     return (
         <nav className=" bg-gradient-to-r from-purple-700 via-pink-500 to-red-500 p-4 shadow-2xl sticky top-0 z-50">
             <div className="flex items-center justify-between max-w-screen-xl mx-auto">
