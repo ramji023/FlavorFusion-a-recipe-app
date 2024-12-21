@@ -18,17 +18,14 @@ const App = () => {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/add-recipe" element={<AddRecipe />} />
-            <Route path="/recipes" element={<Recipes />} />
-            {/* wrap profile component in ProtectedPages  */}
-            <Route path="/profile" element={
-              <ProtectedPages>
-                <Profile />
-              </ProtectedPages>
-            } />
-
-            <Route path="/card" element={<Card />} />
+            {/* wrap protected component in ProtectedPages  */}
+            <Route element={<ProtectedPages />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/add-recipe" element={<AddRecipe />} />
+              <Route path="/recipes" element={<Recipes />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            {/* here is our public components  */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Routes>

@@ -1,8 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import usePostData from "../customHooks/usePostData.js";
+import axios from "axios";
+import usePostData from "../customHooks/usePostData";
+
 export const AuthContext = createContext();   // create the context first
 
 export const AuthProvider = ({ children }) => {
+    const [isloading, setIsloading] = useState(true);
     const [userData, setuserData] = useState({
         isAuthenticate: false,
         user: {
@@ -11,34 +14,37 @@ export const AuthProvider = ({ children }) => {
         }
     });
 
-    const { data, error, loading, success, postData } = usePostData("/api/v1/users/current-user");
-
+    const { error, loading, data, success, postData } = usePostData("/api/v1/users/current-user");
     useEffect(() => {
         const fetchUserData = async () => {
-            if (typeof postData === "function") {
-                await postData({});
-            } else {
-                console.error("postData is not a function");
-            }
+            setIsloading(true);
+            await postData({});
         };
 
         fetchUserData();
-    }, [postData]); // Depend on postData to trigger effect
+    }, [postData]);
 
-
-    // Make sure you are handling data once the request has finished
     useEffect(() => {
         if (success && data) {
-            console.log("user data is:", data);
-            setuserData({
+            const newUserData = {
                 isAuthenticate: true,
                 user: {
                     username: data.data.username,
                     email: data.data.email,
-                }, // Assuming the user data is stored in 'data.user'
+                },
+            };
+            setuserData(newUserData);
+            setIsloading(false);
+        } else if (error) {
+            console.error("Error fetching user data:", error);
+            setuserData({
+                isAuthenticate: false,
+                user: { username: "", email: "" },
             });
-        }
-    }, [success]); // Trigger this effect when success or data changes
+            setIsloading(false);
+        } 
+    }, [success, data, error, loading]);
+
 
 
     //when user successfully logged in or first time register
@@ -49,7 +55,7 @@ export const AuthProvider = ({ children }) => {
             user: newUserData,
         })
 
-        console.log("user logged in successfully");
+
     }
 
     //when user successfully logout
@@ -62,9 +68,12 @@ export const AuthProvider = ({ children }) => {
             }
         })
     }
+    useEffect(() => {
+        console.log("Auth state updated:", userData, isloading);
+    }, [userData, isloading]);
 
     return (
-        <AuthContext.Provider value={{ logout, register, userData, setuserData }}>
+        <AuthContext.Provider value={{ logout, register, userData, setuserData, isloading }}>
             {children}
         </AuthContext.Provider>
     )

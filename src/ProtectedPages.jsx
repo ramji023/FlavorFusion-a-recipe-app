@@ -1,14 +1,19 @@
 import React, { useContext } from "react";
 import { AuthContext } from "./hooks/authContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedPages = ()=>{
-    const {userData} = useContext(AuthContext)
-    if(userData.isAuthenticate===false){
-        return <Navigate to="/login" replace/>
+const ProtectedPages = ({ children }) => {
+    const { userData, isloading } = useContext(AuthContext)
+    console.log("userData : ", userData)
+    console.log("is loading : ", isloading)
+    if (isloading) {
+        return <p>loading....., Please wait for a minute</p>
+    }
+    if (!userData.isAuthenticate) {
+        return <Navigate to="/login" replace />
     }
 
-    return children
+    return <Outlet />
 }
 
 export default ProtectedPages
