@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Card from "./components/Card";
 import AddRecipe from "./pages/AddRecipe";
 import Recipes from "./pages/Recipes";
+import RecipeData from "./pages/RecipeData";
 import { AuthProvider } from "./hooks/authContext";
 import ProtectedPages from "./ProtectedPages";
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/add-recipe" element={<AddRecipe />} />
               <Route path="/recipes" element={<Recipes />} />
+              <Route path="/recipe-data" element={<RecipeData />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
             {/* here is our public components  */}

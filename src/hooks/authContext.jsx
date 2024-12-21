@@ -68,9 +68,9 @@ export const AuthProvider = ({ children }) => {
             }
         })
     }
-    useEffect(() => {
-        console.log("Auth state updated:", userData, isloading);
-    }, [userData, isloading]);
+    // useEffect(() => {
+    //     console.log("Auth state updated:", userData, isloading);
+    // }, [userData, isloading]);
 
     return (
         <AuthContext.Provider value={{ logout, register, userData, setuserData, isloading }}>
