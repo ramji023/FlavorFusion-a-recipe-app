@@ -1,12 +1,26 @@
 // Navbar.jsx
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Logo from "../components/Logo.jsx";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../hooks/authContext.jsx";
-
+import usePostData from "../customHooks/usePostData.js";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
-
+    const navigate = useNavigate()
     const { userData, logout } = useContext(AuthContext);
+    const { success, data, error, postData } = usePostData("/api/v1/users/logout")
+
+    function handleLogoutStatus(e) {
+        postData({})
+    }
+
+    useEffect(() => {
+        if (success) {
+            logout();
+            console.log("user logged out successfully")
+            navigate("/login")
+        }
+    }, [success, data, navigate])
     return (
         <nav className=" bg-gradient-to-r from-purple-700 via-pink-500 to-red-500 p-4 shadow-2xl sticky top-0 z-50">
             <div className="flex items-center justify-between max-w-screen-xl mx-auto">
@@ -60,6 +74,7 @@ const Navbar = () => {
                             {/* Logout Button */}
                             <button
                                 className="text-white font-semibold font-[Poppins] bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300"
+                                onClick={handleLogoutStatus}
                             >
                                 Logout
                             </button>
