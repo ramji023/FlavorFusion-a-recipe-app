@@ -1,6 +1,38 @@
 import React from 'react'
-
+import { useParams } from 'react-router-dom'
+import useFetchData from '../customHooks/useFetchData';
 const RecipeData = () => {
+    const { id } = useParams();
+    console.log("id is : ", id)
+    const { data, error, loading } = useFetchData(`/api/v1/recipes/get-recipe/${id}`)
+
+    // Return if loading
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center mt-8">
+                <p className="text-lg font-semibold text-gray-700 animate-pulse bg-white px-4 py-2 rounded-full shadow-md">
+                    Fetching recipes for you...
+                </p>
+            </div>
+        );
+    }
+    // Return if error exists
+    if (error) {
+        return (
+            <div className="flex flex-col justify-center items-center mt-8">
+                <p className="text-lg font-semibold text-red-700 bg-red-100 px-4 py-2 rounded-full shadow-md">
+                    {error}
+                </p>
+            </div>
+        );
+    }
+
+    if(data.success){
+        console.log(data);
+    }
+
+
+    // if data.success is true
     return (
         <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100 min-h-screen p-8">
             <div className="container mx-auto max-w-6xl bg-transparent p-6">
