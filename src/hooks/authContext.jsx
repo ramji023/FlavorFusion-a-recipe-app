@@ -54,8 +54,6 @@ export const AuthProvider = ({ children }) => {
             isAuthenticate: true,
             user: newUserData,
         })
-
-
     }
 
     //when user successfully logout

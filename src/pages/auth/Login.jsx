@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import usePostData from "../../customHooks/usePostData";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../hooks/authContext";
 const Login = () => {
     const navigate = useNavigate();
-    const { data, error, loading, success, postData } = usePostData("/api/users/login")
+    const { register } = useContext(AuthContext)
+    const { data, error, loading, success, postData } = usePostData("/api/v1/users/login")
     const [loggingUserData, setLoggingUserData] = useState({
         email: "",
         password: "",
@@ -18,15 +20,24 @@ const Login = () => {
     function handleSubmitForm(e) {
         e.preventDefault();
         const { email, password } = loggingUserData
-        console.log(loggingUserData)
+        // console.log(loggingUserData)
         postData({ email, password })
     }
 
     useEffect(() => {
         if (success) {
-            navigate('/')
+            // console.log("got response from custome hook : ",data.data.existedUser);
+            const newUserData = {
+                username: data.data.existedUser.username,
+                email: data.data.existedUser.email,
+            };
+            console.log("user logged in  :", newUserData);
+            register(newUserData);
+            navigate('/');
         }
-    }, [success, navigate])
+    }, [success, navigate]);
+
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 via-orange-100 to-red-100">
             {/* Login Form */}
