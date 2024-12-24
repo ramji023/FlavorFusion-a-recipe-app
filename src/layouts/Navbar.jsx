@@ -66,11 +66,9 @@ const Navbar = () => {
                     {userData.isAuthenticate ? (
                         <div className="flex items-center space-x-4">
                             {/* Profile Icon */}
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center text-white text-lg  font-[Poppins] shadow-lg">
+                            <Link to="/profile" className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center text-white text-lg  font-[Poppins] shadow-lg">
                                 {userData.user?.username[0]?.toUpperCase()}
-                            </div>
-
-
+                            </Link>
                             {/* Logout Button */}
                             <button
                                 className="text-white font-semibold font-[Poppins] bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300"
