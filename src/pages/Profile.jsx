@@ -1,10 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import useFetchData from "../customHooks/useFetchData";
-
+import usePostData from "../customHooks/usePostData"
 
 const Profile = () => {
-    const { data, error, loading } = useFetchData("/api/v1/users/account-details")
+    const { data, error, loading, fetchData } = useFetchData("/api/v1/users/account-details")
+    const { error: avatarError, data: avatarData, success: avatarSuccess, loading: avatarLoading, postData } = usePostData("/api/v1/users/upload-avatar")
+    // console.log(avatarData, avatarError, avatarSuccess, avatarLoading)
+    const fileInputRef = useRef(null);
+    // const [avatarUrl, setAvatarUrl] = useState("");
+    function handleUploadAvatar(file) {
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) {
+                return;
+            }
+            const formData = new FormData();
+            formData.append("avatar", file)
+            postData(formData);
+        } else {
+            return
+        }
+    }
+
+    useEffect(() => {
+        if (avatarSuccess) {
+            console.log("response got from server while uploading avatar :  ", avatarData)
+            fetchData()
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""
+            }
+        }
+    }, [avatarSuccess, avatarData])
+
     if (loading) {
         return (
             <div className="flex justify-center items-center mt-8">
@@ -37,14 +64,31 @@ const Profile = () => {
                             {/* Profile Image */}
                             <div className="relative">
                                 <img
-                                    src="your-profile-image-url.jpg"
+                                    src={accountDetails.avatar}
                                     alt="User Avatar"
                                     className="w-32 h-32 rounded-full object-cover shadow-lg"
                                 />
-                                {/* Edit Icon */}
-                                <button className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow">
-                                    <i className="fas fa-edit"></i>
-                                </button>
+                                {/* upload avatar */}
+                                <div className="relative">
+                                    <label
+                                        htmlFor="upload-image"
+                                        className="absolute bottom-2 right-2 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white p-2 rounded-full shadow cursor-pointer"
+                                    >
+                                        <i className="fas fa-edit"></i>
+                                    </label>
+                                    <input
+                                        id="upload-image"
+                                        type="file"
+                                        name="avatar"
+                                        ref={fileInputRef}
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => handleUploadAvatar(e.target.files[0])} // Handle file selection
+                                    />
+                                    {avatarLoading && <p className="text-red-500">Uploading...</p>}
+                                    {avatarError && <p className="text-red-500">Failed to upload avatar.</p>}
+                                </div>
+
                             </div>
 
                             {/* Profile Details */}
