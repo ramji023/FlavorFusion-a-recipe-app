@@ -22,12 +22,6 @@ const Recipes = () => {
                 <p className="text-lg font-semibold text-red-700 bg-red-100 px-4 py-2 rounded-full shadow-md">
                     {error}
                 </p>
-                {/* <button
-                    onClick={retryFetch}
-                    className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full shadow-md transition duration-300"
-                >
-                    Try Again
-                </button> */}
             </div>
         );
     }

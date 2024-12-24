@@ -6,6 +6,7 @@ const useFetchData = (url) => {
     const [loading, isLoading] = useState(false);
     const [data, setData] = useState([]);
     useEffect(() => {
+        const controller = new AbortController();
         const fetchData = async () => {
             try {
                 setError("")
@@ -32,6 +33,10 @@ const useFetchData = (url) => {
             }
         }
         fetchData();
+        // Cleanup function
+        return () => {
+            controller.abort(); // Cancel the request if the component unmounts
+        };
     }
         , [url])
 
