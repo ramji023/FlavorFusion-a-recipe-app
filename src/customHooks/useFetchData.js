@@ -13,7 +13,7 @@ const useFetchData = (url) => {
             const response = await axiosInstance.get(url);
             if (response && response.data) {
                 setData(response.data);  // Update state with fetched data
-                console.log(response.data);
+                // console.log(response.data);
             }
         } catch (err) {
             if (err.response) {

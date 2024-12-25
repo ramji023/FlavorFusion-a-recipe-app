@@ -2,7 +2,7 @@ import React from 'react'
 import useFetchData from '../customHooks/useFetchData'
 
 const CommentBox = ({ recipeid }) => {
-    console.log(recipeid);
+    // console.log(recipeid);
     const recipeId = recipeid;
     const { data, error, loading } = useFetchData(`/api/v1/comment/get-comments/${recipeId}`)
 
@@ -20,7 +20,7 @@ const CommentBox = ({ recipeid }) => {
     if (data.success) {
         console.log("get comments by recipe id : ", data);
         const allComments = data.data
-        console.log(allComments);
+        // console.log(allComments);
         return (
             <>
                 <div className="mb-8">

@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useFetchData from '../customHooks/useFetchData';
 import CommentBox from '../components/CommentBox';
-
+import IconsBox from '../components/IconsBox';
 const RecipeData = () => {
     const { id } = useParams();
     console.log("id is : ", id)
     const { data, error, loading } = useFetchData(`/api/v1/recipes/get-recipe/${id}`)
+    const [likedRecipe, setLikedRecipe] = useState([])
+    const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
 
 
+    useEffect(() => {
+        if (likedData.success) {
+            setLikedRecipe(likedData.data)
+        }
+    }, [likedData])
+    console.log(likedRecipe);
     // Return if loading
-    if (loading) {
+    if (loading || likedLoading) {
         return (
             <div className="flex justify-center items-center mt-8">
                 <p className="text-lg font-semibold text-gray-700 animate-pulse bg-white px-4 py-2 rounded-full shadow-md">
@@ -20,7 +28,7 @@ const RecipeData = () => {
         );
     }
     // Return if error exists
-    if (error) {
+    if (error || likedError) {
         return (
             <div className="flex flex-col justify-center items-center mt-8">
                 <p className="text-lg font-semibold text-red-700 bg-red-100 px-4 py-2 rounded-full shadow-md">
@@ -61,16 +69,8 @@ const RecipeData = () => {
                         {/* Right: Icons with Counting */}
                         <div className="w-1/5 flex flex-col justify-between items-center space-y-4">
                             {/* Icons with White Outline */}
-                            <div className="flex justify-center space-x-4 mb-6">
-                                <button className="text-white border-2 border-white rounded-full p-2 hover:bg-red-600 transition">
-                                    <i className="fas fa-heart text-xl"></i>
-                                </button>
-                                <button className="text-white border-2 border-white rounded-full p-2 hover:bg-blue-600 transition">
-                                    <i className="fas fa-comment text-xl"></i>
-                                </button>
-                                <button className="text-white border-2 border-white rounded-full p-2 hover:bg-green-600 transition">
-                                    <i className="fas fa-share-alt text-xl"></i>
-                                </button>
+                            <div className="flex justify-center space-x-4 mb-6 text-3xl">
+                                <IconsBox likedRecipe={likedRecipe} recipeID={recipeData._id} />
                             </div>
 
                             {/* Like, Comment, Share Counters */}
@@ -98,7 +98,7 @@ const RecipeData = () => {
                         {/* Left Section: Images, Video, Steps (80%) */}
                         <div className="w-4/5 pr-6">
                             {recipeData.images.map((image, index) => (
-                                <div key={image.index} className="mb-8">
+                                <div key={index} className="mb-8">
                                     <img
                                         src={image}
                                         alt={recipeData.recipeTitle}

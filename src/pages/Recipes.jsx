@@ -64,7 +64,10 @@ const Recipes = () => {
                                         {/* Overlay Content */}
                                         <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4 opacity-100  transition duration-300 rounded-2xl">
                                             {/* Top-Right Icons */}
-                                            <IconsBox likedRecipe={likedRecipe} recipeID={recipe._id} />
+                                            <div className="flex justify-end space-x-2 text-white text-2xl">
+                                                <IconsBox likedRecipe={likedRecipe} recipeID={recipe._id} />
+                                            </div>
+
                                             {/* Title and Creator Info */}
                                             <div className="flex items-center">
                                                 <img
