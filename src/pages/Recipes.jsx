@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useFetchData from "../customHooks/useFetchData";
 import { Outlet, useNavigate, Link } from "react-router-dom";
+import IconsBox from "../components/IconsBox";
 const Recipes = () => {
     const naviagate = useNavigate()
+    const [likedRecipe, setLikedRecipe] = useState([])
     const { data, error, loading } = useFetchData("/api/v1/recipes/get-recipe");
+    const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
 
+    useEffect(() => {
+        if (likedData.success) {
+            setLikedRecipe(likedData.data)
+        }
+    }, [likedData])
     // Return if loading
-    if (loading) {
+    if (loading || likedLoading) {
         return (
             <div className="flex justify-center items-center mt-8">
                 <p className="text-lg font-semibold text-gray-700 animate-pulse bg-white px-4 py-2 rounded-full shadow-md">
@@ -16,7 +24,7 @@ const Recipes = () => {
         );
     }
     // Return if error exists
-    if (error) {
+    if (error || likedError) {
         return (
             <div className="flex flex-col justify-center items-center mt-8">
                 <p className="text-lg font-semibold text-red-700 bg-red-100 px-4 py-2 rounded-full shadow-md">
@@ -55,20 +63,8 @@ const Recipes = () => {
 
                                         {/* Overlay Content */}
                                         <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4 opacity-100  transition duration-300 rounded-2xl">
-
                                             {/* Top-Right Icons */}
-                                            <div className="flex justify-end space-x-2">
-                                                <button className="p-2 rounded-full border border-white text-white">
-                                                    <i className="far fa-heart"></i>
-                                                </button>
-                                                <button className="p-2 rounded-full border border-white text-white">
-                                                    <i className="far fa-comment"></i>
-                                                </button>
-                                                <button className="p-2 rounded-full border border-white text-white">
-                                                    <i className="fas fa-ellipsis-h"></i>
-                                                </button>
-                                            </div>
-
+                                            <IconsBox likedRecipe={likedRecipe} recipeID={recipe._id} />
                                             {/* Title and Creator Info */}
                                             <div className="flex items-center">
                                                 <img
@@ -83,9 +79,9 @@ const Recipes = () => {
                                             </div>
 
                                             {/* Save Icon (Bottom-Right) */}
-                                            <button className="absolute bottom-4 right-4 p-2 rounded-full border border-white text-white">
+                                            {/* <button className="absolute bottom-4 right-4 p-2 rounded-full border border-white text-white">
                                                 <i className="far fa-bookmark"></i>
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +89,6 @@ const Recipes = () => {
                         </div>
                     </div>
                 </div>
-                <Outlet />
             </>
         )
     }

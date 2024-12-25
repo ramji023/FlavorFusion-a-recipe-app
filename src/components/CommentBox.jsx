@@ -45,7 +45,6 @@ const CommentBox = ({ recipeid }) => {
                                 </button>
                             </div>
                         ))}
-
                     </div>
                 </div>
             </>

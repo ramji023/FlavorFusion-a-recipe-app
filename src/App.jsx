@@ -26,6 +26,7 @@ const App = () => {
               <Route path="/recipes" element={<Recipes />} />
               <Route path="/recipes/:id" element={<RecipeData />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/card" element={<Card/>} />
             </Route>
             {/* here is our public components  */}
             <Route path="/login" element={<Login />} />
