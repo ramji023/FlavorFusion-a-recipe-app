@@ -5,14 +5,18 @@ import IconsBox from "../components/IconsBox";
 const Recipes = () => {
     const naviagate = useNavigate()
     const [likedRecipe, setLikedRecipe] = useState([])
+    const [savedRecipe, setSavedRecipe] = useState([])
     const { data, error, loading } = useFetchData("/api/v1/recipes/get-recipe");
     const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
-    // const { data: saveData, error: saveError, loading: saveLoading } = useFetchData("")
+    const { data: saveData, error: saveError, loading: saveLoading } = useFetchData("/api/v1/fav-recipe/save-recipe")
     useEffect(() => {
         if (likedData.success) {
             setLikedRecipe(likedData.data)
         }
-    }, [likedData])
+        if (saveData.success) {
+            setSavedRecipe(saveData.data)
+        }
+    }, [likedData, saveData])
     // Return if loading
     if (loading || likedLoading) {
         return (
@@ -65,7 +69,7 @@ const Recipes = () => {
                                         <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between p-4 opacity-100  transition duration-300 rounded-2xl">
                                             {/* Top-Right Icons */}
                                             <div className="flex justify-end space-x-2 text-white text-2xl">
-                                                <IconsBox likedRecipe={likedRecipe} recipeID={recipe._id} />
+                                                <IconsBox likedRecipe={likedRecipe} recipeID={recipe._id} savedRecipe={savedRecipe}/>
                                             </div>
 
                                             {/* Title and Creator Info */}

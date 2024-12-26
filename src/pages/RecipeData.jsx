@@ -8,13 +8,17 @@ const RecipeData = () => {
     console.log("id is : ", id)
     const { data, error, loading } = useFetchData(`/api/v1/recipes/get-recipe/${id}`)
     const [likedRecipe, setLikedRecipe] = useState([])
+    const [savedRecipe, setSavedRecipe] = useState([])
     const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
-
+    const { data: saveData, error: saveError, loading: saveLoading } = useFetchData("/api/v1/fav-recipe/save-recipe")
     useEffect(() => {
         if (likedData.success) {
             setLikedRecipe(likedData.data)
         }
-    }, [likedData])
+        if (saveData.success) {
+            setSavedRecipe(saveData.data)
+        }
+    }, [likedData, saveData])
     console.log(likedRecipe);
     // Return if loading
     if (loading || likedLoading) {
@@ -69,7 +73,7 @@ const RecipeData = () => {
                         <div className="w-1/5 flex flex-col justify-between items-center space-y-4">
                             {/* Icons with White Outline */}
                             <div className="flex justify-center space-x-4 mb-6 text-3xl">
-                                <IconsBox likedRecipe={likedRecipe} recipeID={recipeData._id} />
+                                <IconsBox likedRecipe={likedRecipe} recipeID={recipeData._id} savedRecipe={savedRecipe} />
                             </div>
 
                             {/* Like, Comment, Share Counters */}

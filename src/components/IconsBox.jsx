@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios.interceptor";
 
 
-const IconsBox = ({ likedRecipe, recipeID }) => {
+const IconsBox = ({ likedRecipe, recipeID, savedRecipe }) => {
     const [isLiked, setIsLiked] = useState(false);  // user liked or disliked the recipe
     const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
         setIsLiked(likedRecipe.some((likerecipe) => likerecipe.recipe === recipeID));
     }, [likedRecipe, recipeID]);
-
+    useEffect(() => {
+        setIsSaved(savedRecipe.some((saveRecipe) => saveRecipe.recipeId === recipeID))
+    }, [savedRecipe, recipeID])
     // Calculate completeUrl within the toggleLikeButton function
     const toggleLikeButton = async () => {
         const newAction = !isLiked ? "like" : "dislike";
@@ -54,10 +56,10 @@ const IconsBox = ({ likedRecipe, recipeID }) => {
     return (
         <>
             {/* Top-Right Icons */}
-            <button onClick={toggleLikeButton} className={`p-2 rounded-full  ${isLiked ? "bg-red-500" : "text-red-500"} flex items-center justify-center`}>
+            <button onClick={toggleLikeButton} className={`p-2 rounded-full  ${isLiked ? "bg-gradient-to-r from-orange-400 via-pink-400 to-red-400" : "text-red-500"} flex items-center justify-center`}>
                 <i className="far fa-heart "></i>
             </button>
-            <button onClick={toggleSavedButton} className={`p-2 rounded-full ${isSaved ? "bg-purple-900" : "text-purple-900"} flex items-center justify-center`}>
+            <button onClick={toggleSavedButton} className={`p-2 rounded-full ${isSaved ? "bg-purple-500" : "text-purple-500"} flex items-center justify-center`}>
                 <i className="far fa-bookmark "></i>
             </button>
             <button className="p-2 rounded-full bg-transparent hover:bg-gray-300 hover:text-black flex items-center justify-center">
