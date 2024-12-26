@@ -7,7 +7,7 @@ const Recipes = () => {
     const [likedRecipe, setLikedRecipe] = useState([])
     const { data, error, loading } = useFetchData("/api/v1/recipes/get-recipe");
     const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
-
+    // const { data: saveData, error: saveError, loading: saveLoading } = useFetchData("")
     useEffect(() => {
         if (likedData.success) {
             setLikedRecipe(likedData.data)

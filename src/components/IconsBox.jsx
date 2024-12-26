@@ -3,8 +3,8 @@ import axiosInstance from "../axios.interceptor";
 
 
 const IconsBox = ({ likedRecipe, recipeID }) => {
-    const [isLiked, setIsLiked] = useState(false);
-    const [action, setAction] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);  // user liked or disliked the recipe
+    const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
         setIsLiked(likedRecipe.some((likerecipe) => likerecipe.recipe === recipeID));
@@ -33,13 +33,31 @@ const IconsBox = ({ likedRecipe, recipeID }) => {
         }
     };
 
+    async function toggleSavedButton() {
+        const newAction = isSaved ? "false" : "true"
+        const prevStatus = isSaved
+        setIsSaved(!prevStatus)
+        const completeUrl = `/api/v1/fav-recipe/save-recipe/${recipeID}?save=${newAction}`
+
+        try {
+            console.log(newAction)
+            console.log(completeUrl)
+            const response = await axiosInstance.post(completeUrl, {})
+            if (response && response.data) {
+                console.log(response.data)
+            }
+        } catch (err) {
+            setIsSaved(prevStatus)
+            console.log("error to send save status to server : ", err)
+        }
+    }
     return (
         <>
             {/* Top-Right Icons */}
-            <button onClick={toggleLikeButton} className={`p-2 rounded-full  ${isLiked ? "bg-red-500" : "text-white"} flex items-center justify-center`}>
+            <button onClick={toggleLikeButton} className={`p-2 rounded-full  ${isLiked ? "bg-red-500" : "text-red-500"} flex items-center justify-center`}>
                 <i className="far fa-heart "></i>
             </button>
-            <button className="p-2 rounded-full bg-transparent hover:bg-gray-200 hover:text-black flex items-center justify-center">
+            <button onClick={toggleSavedButton} className={`p-2 rounded-full ${isSaved ? "bg-purple-900" : "text-purple-900"} flex items-center justify-center`}>
                 <i className="far fa-bookmark "></i>
             </button>
             <button className="p-2 rounded-full bg-transparent hover:bg-gray-300 hover:text-black flex items-center justify-center">

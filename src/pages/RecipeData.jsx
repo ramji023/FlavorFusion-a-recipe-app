@@ -10,7 +10,6 @@ const RecipeData = () => {
     const [likedRecipe, setLikedRecipe] = useState([])
     const { data: likedData, error: likedError, loading: likedLoading } = useFetchData("/api/v1/likes/liked-recipe")
 
-
     useEffect(() => {
         if (likedData.success) {
             setLikedRecipe(likedData.data)
