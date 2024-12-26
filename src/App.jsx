@@ -10,6 +10,7 @@ import Card from "./components/Card";
 import AddRecipe from "./pages/AddRecipe";
 import Recipes from "./pages/Recipes";
 import RecipeData from "./pages/RecipeData";
+import AboutPage from "./pages/AboutUs";
 import { AuthProvider } from "./hooks/authContext";
 import ProtectedPages from "./ProtectedPages";
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/recipes" element={<Recipes />} />
               <Route path="/recipes/:id" element={<RecipeData />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/about" element={<AboutPage/>} />
               <Route path="/card" element={<Card/>} />
             </Route>
             {/* here is our public components  */}

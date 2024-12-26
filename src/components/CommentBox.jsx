@@ -59,12 +59,12 @@ const CommentBox = ({ recipeid }) => {
                     </form>
 
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 mt-4">
 
                         {allComments.length === 0 && (<p>There is no comments on this recipe</p>)}
 
                         {allComments.length !== 0 && allComments.map((comment, index) => (
-                            <div key={index} className="flex items-center space-x-4">
+                            <div key={index} className="flex items-center space-x-4 ">
                                 <img
                                     src="https://via.placeholder.com/40"
                                     alt="User 2"
@@ -74,9 +74,9 @@ const CommentBox = ({ recipeid }) => {
                                     <p className="font-semibold">{comment.creatorName}</p>
                                     <p className="text-gray-600">{comment.content}</p>
                                 </div>
-                                <button className="text-white rounded-full p-2 hover:bg-red-600 transition">
+                                {/* <button className="text-white rounded-full p-2 hover:bg-red-600 transition">
                                     <i className="fas fa-heart text-xl"></i>
-                                </button>
+                                </button> */}
                             </div>
                         ))}
                     </div>
