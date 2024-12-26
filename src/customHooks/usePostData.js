@@ -10,10 +10,11 @@ const usePostData = (url) => {
         try {
             console.log("custom hook called")
             // Check if FormData is received correctly
+            console.log(data);
             setError("");
             isLoading(true);
             const response = await axiosInstance.post(url, data);
-             console.log("response we got from server : ", response.data);
+            console.log("response we got from server : ", response.data);
             setData(response.data);
             setSuccess(true);
         } catch (error) {
